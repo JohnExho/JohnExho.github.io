@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="ForgotPass.css">
+    <title>Forgot | Change Password</title>
+</head>
+<body>
+    <div class="wrapper">
+        <nav class="nav">
+            <div class="nav-logo">
+                <p>LOGO .</p>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <ul>
+                    <li><a href="#" class="link active">Home</a></li>
+                    <li><a href="#" class="link">Blog</a></li>
+                    <li><a href="#" class="link">Services</a></li>
+                    <li><a href="#" class="link">About</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!----------------------------- Form box ----------------------------------->
+        <div class="form-box">
+            <!------------------- Forgot Form --------------------------->
+            <div class="Forgot-container" id="forgot">
+                <div class="top">
+                    <span>Remembered your password? <a href="Login.html">Sign in</a></span>
+                    <header>Forgot Password</header>
+                </div>
+
+                <form id="forgotForm" onsubmit="return handleForgot(event);">
+                    <div class="input-box">
+                        <input type="email" name="email" class="input-field" placeholder="Email" required>
+                        <i class="bx bx-user"></i>
+                    </div>
+                    <div class="button-container">
+                        <button type="button" class="SendCode">Send Code</button>
+                        <button type="button" class="ResendCode">Resend Code</button>
+                    </div>
+                    <div class="input-box">
+                        <input name="otpBox" type="number" class="input-field" placeholder="OTP" required>
+                        <i class="bx bx-lock-alt"></i>
+                    </div>
+                    <div class="button-container">
+                        <button type="reset" class="Clear" id="ClearBtn">Clear</button>
+                        <button type="submit" class="Confirm" id="confirmBtn">Confirm</button>
+                    </div>
+                </form>
+            </div>
+
+            <!------------------- Confirm form --------------------------->
+            <div class="Confirm-container" id="confirm" style="left: -520px; opacity: 0;">
+                <div class="top">
+                    <span>Remembered Password? <a href="#" onclick="goLogin()">Cancel</a></span>
+                    <header>New Password</header>
+                </div>
+                <form id="confirmForm" onsubmit="return matchPassword(event);">
+                    <div class="input-box">
+                        <input type="password" id="NewPassword" class="input-field" placeholder="New Password" required>
+                        <i class="bx bx-envelope"></i>
+                    </div>
+                    <div class="input-box">
+                        <input type="password" id="ConfirmPassword" class="input-field" placeholder="Confirm Password" required>
+                        <i class="bx bx-lock-alt"></i>
+                    </div>
+                    <div class="input-box">
+                        <button type="submit" class="submit">Submit</button>
+                    </div>
+                </form>
+                <div class="popup" id="popup" onclick="redirectToLogin(NewPassword,ConfirmPassword)">
+                    <span class="popuptext" id="myPopup">Popup text...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isForgotCompleted = false; // Track if the Forgot form is completed
+
+        // Handle Forgot Password Form Submission
+        function handleForgot(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const email = document.querySelector("input[name='email']").value;
+            const otp = document.querySelector("input[name='otpBox']").value;
+
+            if (!validateEmail(email) || !otp.trim()) {
+                alert("Please provide a valid email and OTP.");
+                return false;
+            }
+
+            isForgotCompleted = true; // Mark Forgot form as completed
+            switchToConfirm(); // Switch to Confirm form
+            return true;
+        }
+
+        // Validate Email Format
+        function validateEmail(email) {
+            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return regex.test(email);
+        }
+
+        function goLogin() {
+            window.location.href = "Login.html";
+        }
+
+        // Switch to Confirm Form
+        function switchToConfirm() {
+            if (!isForgotCompleted) {
+                alert("Please complete the Forgot Password form first.");
+                return;
+            }
+            document.getElementById("forgot").style.right = "-510px"; // Move Forgot form off-screen
+            document.getElementById("confirm").style.left = "4px"; // Bring Confirm form to view
+            document.getElementById("forgot").style.opacity = 0; // Fade out Forgot form
+            document.getElementById("confirm").style.opacity = 1; // Fade in Confirm form
+        }
+
+        // Handle Confirm Form Submission
+        function matchPassword(event) {
+            event.preventDefault(); // Prevent default submission
+            var NewPassword = document.getElementById("NewPassword").value;
+            var ConfirmPassword = document.getElementById("ConfirmPassword").value;
+
+            // Show the popup message and handle redirection
+            if (NewPassword === ConfirmPassword) {
+                showPopup("Password changed successfully");
+                document.getElementById("popup").style.display = "inline-block"; // Show the popup
+                // Call the redirect function on popup click
+                document.getElementById("popup").onclick = function() {
+                    redirectToLogin(NewPassword, ConfirmPassword);
+                };
+            } else {
+                showPopup("Passwords do not match");
+                document.getElementById("popup").style.display = "inline-block"; // Show the popup
+            }
+            return false; // Prevent form from submitting
+        }
+
+        // Show Popup
+        function showPopup(message) {
+            const popup = document.getElementById("myPopup");
+            popup.textContent = message; // Set the popup text
+            popup.classList.add("show"); // Show the popup
+        }
+
+        // Redirect to Login
+        function redirectToLogin(NewPassword, ConfirmPassword) {
+            if (NewPassword === ConfirmPassword) {
+                window.location.href = "Login.html"; // Redirect to login page
+            }
+        }
+    </script>
+</body>
+</html>
