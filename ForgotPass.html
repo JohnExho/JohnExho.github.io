@@ -19,6 +19,9 @@
                     <li><a href="#" class="link">About</a></li>
                 </ul>
             </div>
+            <div class="nav-menu-btn">
+                <i class="bx bx-menu" onclick="myMenuFunction()"></i>
+            </div>
         </nav>
 
         <!----------------------------- Form box ----------------------------------->
@@ -77,6 +80,16 @@
     </div>
 
     <script>
+
+    function myMenuFunction() {
+    var i = document.getElementById("navMenu");
+
+    if(i.className === "nav-menu") {
+        i.className += " responsive";
+    } else {
+        i.className = "nav-menu";
+    }
+   }
         let isForgotCompleted = false; // Track if the Forgot form is completed
 
         // Handle Forgot Password Form Submission
