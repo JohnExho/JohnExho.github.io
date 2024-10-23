@@ -43,8 +43,8 @@ if(i.className === "nav-menu") {
             alert("Please complete the Forgot Password form first.");
             return;
         }
-        document.getElementById("forgot").style.right = "-510px"; // Move Forgot form off-screen
-        document.getElementById("confirm").style.left = "4px"; // Bring Confirm form to view
+        document.getElementById("forgot").style.left = "-510px"; // Move Forgot form off-screen
+        document.getElementById("confirm").style.right = "5px"; // Bring Confirm form to view
         document.getElementById("forgot").style.opacity = 0; // Fade out Forgot form
         document.getElementById("confirm").style.opacity = 1; // Fade in Confirm form
     }
